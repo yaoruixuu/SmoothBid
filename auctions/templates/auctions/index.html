@@ -1,0 +1,85 @@
+{% extends "auctions/layout.html" %}
+
+{% block style %}
+<style>
+      .img_div{
+      display: block;
+      margin:0 auto;
+      background-color: white;
+      border-radius: 25px;
+      width:200px;
+      max-height:250px;
+      display: flex;
+      justify-content: center;
+      
+      
+  }
+  .description_div{
+      display: block;
+      margin:10px 30px;
+      
+      
+  }
+  #listing_img{
+    
+      max-width:200px;
+      margin: 0 30px;
+      padding:20px 20px;
+  }
+  
+  #item_container{
+      border: 1px solid #E5E5E5;
+      border-radius: 25px;
+      display:block;
+      margin:50px 20px;
+      padding:30px 30px;
+      height:400px;
+      background-color: #E5E5E5;
+      width:100%;
+     
+
+  }
+  
+  #index{
+    display:grid;
+    grid-column-gap: 20px;
+    grid-row-gap: 10px;
+    grid-template-columns: repeat(5, 18.5%);
+  }
+  h1{
+    color:#3c6e71;
+  }
+  
+    
+
+</style>
+{% endblock %}
+
+{% block body %}
+    <h1>Active Listings</h1>
+    <br>
+    <br>
+    
+    {% for key,listings in dict.items %}
+        <h2 id="category">{{ key }}</h2>
+        <div id="index">
+        {% for listing in listings %}
+
+            <div id="item_container">
+                
+            <div class="img_div">
+                <img id="listing_img" src="{{ listing.img_url }}">
+            </div>
+            <div class="description_div">
+                <a href="{% url 'listing' listing.title user %}"><h3>{{ listing.title }}</h3></a>
+                <h7 id="price">Current Price: ${{ listing.bid.val }}</h7>
+                <h7>Posted by: {{ listing.user }}</h7>
+                
+            </div>
+            </div>
+        {% endfor %}
+        </div>
+    {% endfor %}
+   
+
+{% endblock %}

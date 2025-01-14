@@ -1,0 +1,62 @@
+{% extends 'auctions/layout.html' %}
+
+{% block title %}Create Listing{% endblock %}
+
+{% block style %}
+<style>
+  #description{
+    display:block;
+  }
+
+  .field{
+    margin: 20px 20px;
+  }
+  #body{
+    width:500px;
+    margin: 0 auto;
+  }
+</style>
+
+{% endblock %}
+
+
+{% block body %}
+<h1>Create a Listing:</h1>
+<form action="{% url 'create_listing' user %}" method="post">
+  {% csrf_token %}
+
+  <div class="field">
+    <lable for="title">Title</lable>
+    <input type="text" name="title" id="title">
+  </div>
+
+  <div id="description" class="field">
+    <lable for="description">Description</lable>
+    <textarea rows="10" cols="50" name="description" id="description"></textarea>
+  </div>
+
+  <div class="field">
+    {{ invalid }}
+    <lable for="bid">Bid</lable>
+    <input type="text" name="starting_bid" id="bid">
+  </div>
+
+  <div class="field">
+    <lable for="img_url">Image URL</lable>
+    <input type="text" name="img_url" id="img_url">
+  </div>
+
+  <div class="field">
+    <lable for="category">Category</lable>
+    <input type="text" name="category" id="category">
+  </div>
+
+  <input type="submit" value="Create Listing">
+
+
+
+</form>
+
+
+
+{% endblock %}

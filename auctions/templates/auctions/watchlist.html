@@ -1,0 +1,60 @@
+{% extends 'auctions/layout.html' %}
+
+
+{% block title %}Watchlist{% endblock %}
+
+{% block style %}
+  <style>
+    
+   
+    .img_div{
+      display: inline-block;
+      margin:30px 30px;
+    }
+
+    #listing_img{
+        width:200px;
+        margin: 0 70px;
+    }
+    
+    #item_container{
+        border: 1px solid black;
+        border-radius:25px;
+        display:block;
+        margin:50px 20px;
+        padding:30px 30px;
+    }
+    
+    p{
+        max-width: 800px;
+    }
+    
+    
+
+  </style>
+
+{% endblock %}
+
+{% block body %}
+
+  {% for listing in listings %}
+
+    
+      <div id="item_container">
+        <div class="img_div">
+            <img id="listing_img" src="{{ listing.img_url }}">
+        </div>
+        <div class="img_div">
+            <a href="{% url 'listing' listing.title user %}"><h2>{{ listing.title }}</h2></a>
+            <h6 id="price">Price: ${{ listing.starting_bid }}</h6>
+            <p>{{ listing.description }}</p>
+        </div>
+      </div>
+      {% empty %}
+      <h2>No Items in Watchlist</h2>
+   
+
+  {% endfor %}
+
+
+{% endblock %}

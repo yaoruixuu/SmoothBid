@@ -1,0 +1,75 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>{% block title %}Smooth Bid{% endblock %}</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link href="{% static 'auctions/styles.css' %}" rel="stylesheet">
+        <link rel="icon" type="image/x-icon" href="{% static 'auctions/pictures/smooth_bid.png' %}">
+
+        {% block style %}
+        {% endblock %}
+
+    </head>
+    <body>
+        
+        
+        <ul class="nav">
+            
+            <li class="nav-item">
+                <img id="nav-logo" src="{% static 'auctions/pictures/smooth_bid.png' %}">
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'index' %}">Active Listings</a>
+            </li>
+            {% if user.is_authenticated %}
+                
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'categories' %}">Categories</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'create_listing' user %}">Create a Listing</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'watchlist' user %}">Watchlist</a>
+                </li>
+                <li class="nav-item ml-auto">
+                    <a id="logout" class="nav-link" href="{% url 'logout' %}">Log Out</a>
+                </li>
+                <li class="nav-item">
+                    <div class="nav-link" id="signed_in_as">
+                        {% if user.is_authenticated %}
+                            Signed in as <strong id="uname">{{ user.username }}</strong>.
+                        {% else %}
+                            Not signed in.
+                        {% endif %}
+                    </div>
+                </li>
+            {% else %}
+                
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'register' %}">Register</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'categories' %}">Categories</a>
+                </li>
+                <li class="nav-item ml-auto">
+                    <a id="login" class="nav-link" href="{% url 'login' %}">Log In</a>
+                </li>
+            {% endif %}
+        </ul>
+        <hr>
+        
+        {% block category %}
+        {% endblock %}
+
+        <div id="body">
+        {% block body %}
+        {% endblock %}
+        </div>
+       
+       
+        
+    </body>
+</html>

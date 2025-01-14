@@ -1,0 +1,213 @@
+{% extends 'auctions/layout.html' %}
+
+{% block title %}Listing{% endblock %}
+
+{% block style %}
+  <style>
+    #add{
+      margin: 10px 10px;
+      display: inline-block;
+    }
+    #img{
+      width:400px;
+      margin:30px 0;
+    }
+    
+    #watchlist{
+      border:3px solid black;
+      background-color: aqua;
+      color: black;
+      display:inline-block;
+      padding:5px 5px;
+      
+    }
+
+    form{
+      display:inline-block;
+    }
+
+    .container{
+      display:flex;
+    }
+    .right{
+      width:40%;
+      display: flex;
+      flex-direction:column;
+    }
+    .left{
+      width:50%;
+    }
+    .comment_section{
+      height:250px;
+      width:390px;
+      border: solid black 2px;
+      overflow: scroll;
+    }
+    #win{
+      color:green;
+    }
+    #closed{
+      color:red;
+    }
+
+  </style>
+
+  <!--javascript-->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+
+
+        document.querySelector('#exchange').onsubmit = function() {
+
+      fetch('https://api.exchangeratesapi.io/latest?access_key=fd0a46642336ba9ce95bfe0420f52a50'
+      )
+      .then(response => response.json())
+      .then(data => {
+        const currency  = document.querySelector('#currency').value.toUpperCase();
+        const rate = data.rates[currency];
+        if (rate !== undefined){
+          num = parseFloat(document.querySelector('#price').innerHTML)
+          document.querySelector('#price').innerHTML = ""
+          document.querySelector('#msg').innerHTML = `Current bid price in ${currency} is $${rate.toFixed(3)*num} ${currency}.`;
+        }
+        else{
+          document.querySelector('#msg').innerHTML = 'Invalid Currency.';
+        }
+      })
+      .catch(error => {
+        console.log('Error:', error)
+        });
+
+
+      return false;
+    }
+
+
+});
+  </script>
+{% endblock %}
+
+
+  {% block body %}
+
+  {% if not listing.active %}
+    <h1 id="closed">Listing is now closed</h1>
+
+    {% if user == highest_bidder and user != listing.user %}
+      <h1 id="win">You have won the auction at ${{ listing.bid.val }} </h1>
+    {% endif %}
+
+  {% endif %}
+
+    {% if user.is_authenticated %}
+
+    <!--Close Listing-->
+    {% if close %}
+      <form action="{% url 'listing' listing.title user %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" value="close" name="close">
+        <input type="submit" value="Close Listing">
+      </form>
+    {% endif %}
+
+
+
+    <!--Watchlist-->
+    
+
+    {% if add_button %}
+      <div id="add"></div>
+          <form action="{% url 'listing' listing.title user %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" value="{{ listing.id }}" name="add_listing">
+            <input type="hidden" value="{{ user.id }}" name="user_id">
+            <input type="Submit" value="Add to Watchlist">
+          </form>
+
+    {% else %}
+      <form action="{% url 'listing' listing.title user %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" value="{{ listing.id }}" name="remove_listing">
+        <input type="Submit" value="Remove from Watchlist">
+      </form>
+    {% endif %} 
+
+    {% endif %} 
+    {% for item in user.watchlist.all %}
+      {% if item.item == listing %}
+        <div id="watchlist">Watchlist</div>
+      {% endif %}
+    {% endfor %}
+
+    <!--body-->
+    <div class="container">
+      <!--left side-->
+      <div class="left">
+        <h1>Listing: {{ listing.title }}</h1>
+
+        <img id="img" src="{{ listing.img_url }}">
+
+        <h6><strong>Description: </strong><hr>{{ listing.description }}</h6>
+
+      </div>
+
+      <div class="right">
+
+        <!--Right top-->
+          <div class="right_top">
+            <form id="exchange">
+              <input id="currency" placeholder="Currency Code" type="text">
+              <input type="submit" value="Convert">
+            </form>
+            <h4 id="msg">Current Bid Price (EUR): $<span id="price">{{ listing.bid.val }}</span></h4>
+            
+            {% if user.is_authenticated %}
+            {% if listing.active %}
+              <form action="{% url 'listing' listing.title user %}" method="post">
+                {% csrf_token %}
+                <input type="text" value="Bid" name="bid_amount">
+                <input type="submit" value="Submit Bid">
+
+              </form>
+              <h6>{{ error_msg }}</h6>
+            {% endif %}
+            {% endif %}
+          </div>
+        
+
+        <!--Right bottom-->
+        <div class="right_bottom">
+            <!--Displaying Comments-->
+          <br>
+          <br>
+          <h3>Comments</h3>
+          <div class="comment_section">
+            {% for comment in comments %}
+              <div>
+                <h6>Posted By: {{ comment.user.username }}</h6>
+                <p>{{ comment.comment }}</p>
+              </div>
+            {% endfor %}
+          </div>
+
+        
+
+          <!--Adding Comments-->
+          
+          {% if user.is_authenticated %}
+            <form action="{% url 'listing' listing.title user %}" method="post">
+              {% csrf_token %}
+              <h6>Add a comment</h6>
+              <input type="hidden" value="{{ user }}" name="user">
+              <textarea rows="2" cols="50" name="user_comment"></textarea>
+              <input type="submit" Value="Post Comment">
+            </form>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+{% endblock %}
