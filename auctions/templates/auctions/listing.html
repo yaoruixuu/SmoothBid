@@ -159,7 +159,7 @@
               <input id="currency" placeholder="Currency Code" type="text">
               <input type="submit" value="Convert">
             </form>
-            <h4 id="msg">Current Bid Price (EUR): $<span id="price">{{ listing.bid.val }}</span></h4>
+            <h4 id="msg">Current Bid Price (EUR): €<span id="price">{{ listing.bid.val }}</span></h4>
             
             {% if user.is_authenticated %}
             {% if listing.active %}
