@@ -2,6 +2,7 @@
 
 {% block style %}
 <style>
+    
       .img_div{
       display: block;
       margin:0 auto;
@@ -20,12 +21,13 @@
       display: block;
       margin:10px 30px;
       box-sizing: border-box;
+      max-height:100px;
       
       
   }
   #listing_img{
     
-      max-width:200px;
+      max-width:170px;
       width:100%;
       margin: 0 30px;
       padding:20px 20px;
@@ -40,6 +42,7 @@
       margin:50px 20px;
       padding:30px 30px;
       max-height:100%;
+      
       background-color: #E5E5E5;
       width:100%;
       max-width: 100%;
@@ -49,6 +52,7 @@
   }
   
   #index{
+    
     display:grid;
     grid-column-gap: 20px;
     grid-row-gap: 10px;
@@ -57,6 +61,7 @@
   }
   h1{
     color:#3c6e71;
+    
   }
   
     
@@ -66,7 +71,6 @@
 
 {% block body %}
     <h1>Active Listings</h1>
-    <br>
     <br>
     
     {% for key,listings in dict.items %}
@@ -80,9 +84,9 @@
                 <img id="listing_img" src="{{ listing.img_url }}">
             </div>
             <div class="description_div">
-                <a href="{% url 'listing' listing.title user %}"><h3>{{ listing.title }}</h3></a>
-                <h7 id="price">Current Price: ${{ listing.bid.val }}</h7>
-                <h7>Posted by: {{ listing.user }}</h7>
+                <a href="{% url 'listing' listing.title user %}"><h7>{{ listing.title }}</h7></a>
+                <p id="price">Current Price: ${{ listing.bid.val }}</p>
+                <p>Posted by: {{ listing.user }}</p>
                 
             </div>
             </div>
