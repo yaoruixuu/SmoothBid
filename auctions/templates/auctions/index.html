@@ -7,24 +7,30 @@
       margin:0 auto;
       background-color: white;
       border-radius: 25px;
-      width:200px;
+      width:100%;
       max-height:250px;
       display: flex;
       justify-content: center;
+      box-sizing: border-box;
+    
       
       
   }
   .description_div{
       display: block;
       margin:10px 30px;
+      box-sizing: border-box;
       
       
   }
   #listing_img{
     
       max-width:200px;
+      width:100%;
       margin: 0 30px;
       padding:20px 20px;
+      box-sizing: border-box;
+     
   }
   
   #item_container{
@@ -33,9 +39,11 @@
       display:block;
       margin:50px 20px;
       padding:30px 30px;
-      height:400px;
+      max-height:100%;
       background-color: #E5E5E5;
       width:100%;
+      max-width: 100%;
+      box-sizing: border-box;
      
 
   }
@@ -45,6 +53,7 @@
     grid-column-gap: 20px;
     grid-row-gap: 10px;
     grid-template-columns: repeat(5, 18.5%);
+    box-sizing: border-box;
   }
   h1{
     color:#3c6e71;
