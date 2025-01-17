@@ -1,7 +1,7 @@
 Auctions app <br/>
 Create and account to post and bid postings.<br/>
 deployed at: [yaoruixuu.pythonanywhere.com](https://yaoruixuu.pythonanywhere.com)
-Written in Python, Javascript with Django<br/>
+Written in Python, Javascript with Django with SQLite DB<br/>
 Styling with Bootstrap 4<br/>
 Currency with ExchangeRates API
 
